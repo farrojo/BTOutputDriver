@@ -24,7 +24,7 @@ bool deviceConnected = false;
 bool oldDeviceConnected = false;
 uint32_t value = 0;
 
-#define SERVICE_UUID        "64ddd17b-bfe1-4613-b5c6-a39c84f94d8f"
+#define SERVICE_UUID        "d8121f6c-571f-11ee-8c99-0242ac120002"
 #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
 #define CHARACTERISTIC_UUID_RX "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"
 
@@ -237,18 +237,18 @@ void loop() {
         pCharacteristic->setValue((uint8_t*)&value, 4);
         pCharacteristic->notify();
         value++;
-        delay(10); // bluetooth stack will go into congestion, if too many packets are sent, in 6 hours test i was able to go as low as 3ms
+        delay(10); // Delay to deal with BT congestion in High traffic
     }
     // disconnecting
     if (!deviceConnected && oldDeviceConnected) {
-        delay(500); // give the bluetooth stack the chance to get things ready
+        delay(500); // waiting time to set all up
         pServer->startAdvertising(); // restart advertising
         Serial.println("start advertising");
         oldDeviceConnected = deviceConnected;
     }
     // connecting
     if (deviceConnected && !oldDeviceConnected) {
-        // do stuff here on connecting
+        // additional stuff to do in connecting 
         oldDeviceConnected = deviceConnected;
     }
 }
